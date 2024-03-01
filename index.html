@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscaminas en TypeScript</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div id="juego"></div>
+    <script src="dist/celda.js"></script>
+    <script src="dist/tablero.js"></script>
+    <script src="dist/juego.js"></script>
+    <script>
+       
+        const juego = new Juego(5,5);
+        juego.tablero.imprimirTablero();
+    </script>
+</body>
+</html>
