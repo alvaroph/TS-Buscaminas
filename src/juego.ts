@@ -24,7 +24,7 @@ class Juego {
     
                 // Añadir imagen a la celda
                 const imagenElemento = document.createElement('img');
-                imagenElemento.src = 'img/open0.gif'; // Reemplaza esto con la ruta a la imagen que quieras usar
+                imagenElemento.src = 'img/shadow0.gif'; // Reemplaza esto con la ruta a la imagen que quieras usar
                 celdaElemento.appendChild(imagenElemento);
     
                 // Añadir event listener para el evento de click
@@ -35,9 +35,14 @@ class Juego {
             elementoJuego?.appendChild(filaElemento); // Añadir fila al tablero
         }
     }
+
     visitarCasilla(fila: number, columna: number) {
         const celda = this.tablero.celdas[fila][columna];
-        if (celda.marcada || celda.revelada) return; // Ignorar si la celda ya está marcada o revelada
+        console.log("visitocasilla" + fila + " " + columna)
+        console.log(celda)
+
+        if (celda.marcada || celda.revelada)
+         return; // Ignorar si la celda ya está marcada o revelada
 
         if (celda.esMina) {
             alert('¡Boom! Fin del juego.');
@@ -47,7 +52,33 @@ class Juego {
             this.celdasReveladas++;
             this.verificarVictoria();
             // Aquí se debe actualizar la UI para mostrar que la celda está revelada
+            const minasAlrededor: number = this.contarMinasAlrededor(fila, columna);
+            document.getElementById(`celda-${fila}-${columna}`).firstChild.src = `img/open${minasAlrededor}.gif`; // Reemplaza esto con la ruta a la imagen que quieras usar
+            
         }
+    }
+
+    private contarMinasAlrededor(i: number, j:number): number {
+        let conteoMinas = 0;
+        const direcciones = [
+            [-1, -1], [-1, 0], [-1, 1],
+            [0, -1],           [0, 1],
+            [1, -1], [1, 0], [1, 1]
+        ];
+    
+        for (let k = 0; k < direcciones.length; k++) {
+            const dx = direcciones[k][0];
+            const dy = direcciones[k][1];
+            const nuevaI = i + dx, nuevaJ = j + dy;
+    
+            if (nuevaI >= 0 && nuevaI < this.tablero.filas && nuevaJ >= 0 && nuevaJ < this.tablero.columnas) {
+                if (this.tablero.celdas[nuevaI][nuevaJ].esMina ) { // Asume que -1 representa una mina
+                    conteoMinas++;
+                }
+            }
+        }
+    
+        return conteoMinas;
     }
 
     verificarVictoria() {

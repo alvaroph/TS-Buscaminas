@@ -3,13 +3,13 @@
     flex-wrap: wrap;
     width: calc(20px * 5); /* Reemplaza <NúmeroDeColumnas> con el número real de columnas en tu tablero */
     margin: auto; /* Centrar el tablero horizontalmente */
-    border: 1px solid #000; /* Opcional: Añade un borde alrededor del tablero para visualizarlo mejor */
+ /*   border: 1px solid #000; /* Opcional: Añade un borde alrededor del tablero para visualizarlo mejor */
 }
 
 .celda {
     width: 20px; /* Ancho de cada celda */
     height: 20px; /* Alto de cada celda */
-    border: 1px solid #cccccc; /* Borde de cada celda */
+  /*  border: 1px solid #cccccc; /* Borde de cada celda */
     box-sizing: border-box; /* Asegura que el ancho y alto incluyan el padding y el borde */
 }
 

@@ -18,7 +18,7 @@ var Juego = /** @class */ (function () {
                 celdaElemento.classList.add('celda');
                 // Añadir imagen a la celda
                 var imagenElemento = document.createElement('img');
-                imagenElemento.src = 'img/open0.gif'; // Reemplaza esto con la ruta a la imagen que quieras usar
+                imagenElemento.src = 'img/shadow0.gif'; // Reemplaza esto con la ruta a la imagen que quieras usar
                 celdaElemento.appendChild(imagenElemento);
                 // Añadir event listener para el evento de click
                 celdaElemento.addEventListener('click', function () { return _this.visitarCasilla(i, j); });
@@ -37,6 +37,8 @@ var Juego = /** @class */ (function () {
     };
     Juego.prototype.visitarCasilla = function (fila, columna) {
         var celda = this.tablero.celdas[fila][columna];
+        console.log("visitocasilla" + fila + " " + columna);
+        console.log(celda);
         if (celda.marcada || celda.revelada)
             return; // Ignorar si la celda ya está marcada o revelada
         if (celda.esMina) {
@@ -48,7 +50,28 @@ var Juego = /** @class */ (function () {
             this.celdasReveladas++;
             this.verificarVictoria();
             // Aquí se debe actualizar la UI para mostrar que la celda está revelada
+            var minasAlrededor = this.contarMinasAlrededor(fila, columna);
+            document.getElementById("celda-".concat(fila, "-").concat(columna)).firstChild.src = "img/open".concat(minasAlrededor, ".gif"); // Reemplaza esto con la ruta a la imagen que quieras usar
         }
+    };
+    Juego.prototype.contarMinasAlrededor = function (i, j) {
+        var conteoMinas = 0;
+        var direcciones = [
+            [-1, -1], [-1, 0], [-1, 1],
+            [0, -1], [0, 1],
+            [1, -1], [1, 0], [1, 1]
+        ];
+        for (var k = 0; k < direcciones.length; k++) {
+            var dx = direcciones[k][0];
+            var dy = direcciones[k][1];
+            var nuevaI = i + dx, nuevaJ = j + dy;
+            if (nuevaI >= 0 && nuevaI < this.tablero.filas && nuevaJ >= 0 && nuevaJ < this.tablero.columnas) {
+                if (this.tablero.celdas[nuevaI][nuevaJ].esMina) { // Asume que -1 representa una mina
+                    conteoMinas++;
+                }
+            }
+        }
+        return conteoMinas;
     };
     Juego.prototype.verificarVictoria = function () {
         if (this.celdasReveladas === this.celdasSinMina || this.todasLasMinasMarcadas()) {
